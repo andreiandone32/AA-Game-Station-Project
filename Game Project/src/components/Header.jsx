@@ -10,7 +10,6 @@ import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
 import VideogameAssetOffOutlinedIcon from "@mui/icons-material/VideogameAssetOffOutlined";
-
 import { NavLink } from "react-router-dom";
 import { FavoriteContext } from "../favorite/FavoriteContext";
 import { useContext } from "react";

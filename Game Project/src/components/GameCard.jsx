@@ -12,6 +12,8 @@ import { FavoriteContext } from "../favorite/FavoriteContext";
 export function GameCard({ game }) {
   const { addProduct, removeProduct } = useContext(FavoriteContext);
 
+
+ 
   return (
     <Card
       key={game.id}

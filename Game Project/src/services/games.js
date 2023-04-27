@@ -3,11 +3,11 @@ import {
 } from "./utils"
 
 
-const BASE_URL = "https://free-to-play-games-database.p.rapidapi.com/api/games"
+const BASE_URL = " https://free-to-play-games-database.p.rapidapi.com/api/games"
 
 
 export const headers = {
-    'X-RapidAPI-Key': '2f9583e53amsh68274c0c36d38c0p1bdbe3jsn25932b49ec5f',
+    'X-RapidAPI-Key': '8553a11824mshbe71cfec189cd37p17ce5bjsned1ab3206df3',
     'X-RapidAPI-Host': 'free-to-play-games-database.p.rapidapi.com'
 }
 
@@ -17,8 +17,13 @@ export function getGames() {
         headers
     })
 }
+export function getGameByGenre(genre) {
+    return fetchAndParse(`${BASE_URL}?${genre}`,
+        headers)
+}
+
 
 export function getGamesById(id) {
-    return fetchAndParse(`${BASE_URL}/${id}`,
+    return fetchAndParse(`${BASE_URL}?${id}`,
         headers)
 }

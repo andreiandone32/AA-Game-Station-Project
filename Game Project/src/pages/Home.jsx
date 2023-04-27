@@ -1,15 +1,22 @@
-import { Box, CircularProgress, Grid, Typography } from "@mui/material";
-import { useEffect } from "react";
+import {
+  Box,
+  CircularProgress,
+  FormControl,
+  Grid,
+  MenuItem,
+  Select,
+  Typography,
+} from "@mui/material";
 import { getGames } from "../services/games";
+import { getGameByGenre } from "../services/games";
 import { GameCard } from "../components/GameCard";
 import { useFetchData } from "../hooks/useFetchData";
-import Pagination from "@mui/material/Pagination";
-import PaginationItem from "@mui/material/PaginationItem";
-import Stack from "@mui/material/Stack";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import { useState, useMemo, useEffect } from "react";
+import gameGenreOptions from "../services/gameGenreOptions.json";
+import { useLocalStorage } from "../hooks/useLocalStorage";
 
 export default function () {
+
   const {
     data: games,
     loading,
@@ -19,6 +26,12 @@ export default function () {
     initialData: [],
   });
 
+  const [genre, setGenre] = useLocalStorage("genre", "allGenre");
+
+  const data = useMemo(() => {
+    return getGameByGenre(games);
+  });
+
   if (loading) {
     return <CircularProgress />;
   }
@@ -26,7 +39,13 @@ export default function () {
   if (error) {
     return (
       <Box>
-        <Typography textAlign="center"  sx={{ color:"white", mt:18, fontSize:"5rem"}} variant="body1">Something went wrong</Typography>
+        <Typography
+          textAlign="center"
+          sx={{ color: "white", mt: 18, fontSize: "5rem" }}
+          variant="body1"
+        >
+          Something went wrong
+        </Typography>
       </Box>
     );
   }
@@ -57,6 +76,23 @@ export default function () {
       >
         There are the best games for you
       </Typography>
+      <FormControl sx={{ width: 150 }}>
+        <Select
+          labelId="multiple-select-label"
+          id="multiple-select"
+          value={genre}
+          onChange={(event) => setGenre(event.target.value)}
+        >
+          {gameGenreOptions.map((option, i) => {
+            return (
+              <MenuItem value={option.value} key={i}>
+                {option.label}
+              </MenuItem>
+            );
+          })}
+        </Select>
+      </FormControl>
+
       <Grid sx={{ mt: 3 }} container spacing={2}>
         {games.map((game) => (
           <Grid key={game.id} item xs={12} sm={6} lg={3}>
@@ -64,17 +100,6 @@ export default function () {
           </Grid>
         ))}
       </Grid>
-      <Stack spacing={2}>
-        <Pagination
-          count={10}
-          renderItem={(item) => (
-            <PaginationItem
-              slots={{ previous: ArrowBackIcon, next: ArrowForwardIcon }}
-              {...item}
-            />
-          )}
-        />
-      </Stack>
     </Box>
   );
 }
