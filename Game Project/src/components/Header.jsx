@@ -10,25 +10,25 @@ import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
 import VideogameAssetOffOutlinedIcon from "@mui/icons-material/VideogameAssetOffOutlined";
-import { NavLink } from "react-router-dom";
-import { FavoriteContext } from "../favorite/FavoriteContext";
-import { useContext } from "react";
+import { Link, NavLink } from "react-router-dom";
 
+import { useContext } from "react";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import { CartContext } from "../contexts/cart/CartContext";
 const pages = [
   {
     name: "Home",
     path: "/",
   },
   {
-    name: `Favorite Games`,
-    path: "/favorite",
+    name: <ShoppingCartIcon />,
+    path: `/cart`,
   },
 ];
-
 export function Header() {
-  const { favorite, addProduct } = useContext(FavoriteContext);
+  const { cart, addProduct } = useContext(CartContext);
 
-  console.log({ favorite });
+
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);

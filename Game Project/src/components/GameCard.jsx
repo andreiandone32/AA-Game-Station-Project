@@ -7,67 +7,52 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { Link, NavLink } from "react-router-dom";
 import { useContext } from "react";
-import { FavoriteContext } from "../favorite/FavoriteContext";
+import { CartContext } from "../contexts/cart/CartContext";
 
-export function GameCard({ game }) {
-  const { addProduct, removeProduct } = useContext(FavoriteContext);
+export function GameCard({ deal }) {
+  const { addProduct } = useContext(CartContext);
 
-
- 
   return (
     <Card
-      key={game.id}
+      key={deal.dealId}
       sx={{ backgroundColor: "transparent", textAlign: "center" }}
     >
-      <Link to={`/gameInfo/${game.id}`}>
-        <CardMedia component="img" image={game.thumbnail} title={game.title} />
-        <CardContent>
-          <Typography
-            sx={{ color: "white", textAlign: "center" }}
-            gutterBottom
-            variant="h5"
-            component="div"
-          >
-            {game.title}
-          </Typography>
-          <Typography
-            sx={{ color: "white" }}
-            variant="body2"
-            color="text.secondary"
-          >
-            {game.publisher}
-          </Typography>
-          <Typography
-            sx={{ color: "white" }}
-            variant="body2"
-            color="text.secondary"
-          >
-            {game.genre}
-          </Typography>
-        </CardContent>
-      </Link>
+      <CardMedia component="img" image={deal.thumb} title={deal.title} />
+      <CardContent>
+        <Typography
+          sx={{ color: "white", textAlign: "center" }}
+          gutterBottom
+          variant="h5"
+          component="div"
+        >
+          {deal.title}
+        </Typography>
+        <Typography
+          sx={{ color: "white" }}
+          variant="body2"
+          color="text.secondary"
+        >
+          Deal rating is {deal.dealRating}
+        </Typography>
+        <Typography
+          sx={{ color: "white" }}
+          variant="body2"
+          color="text.secondary"
+        >
+          {deal.steamRatingText}
+        </Typography>
+      </CardContent>
       <CardActions>
         <Button
-          LinkComponent={NavLink}
-          to={`/gameInfo/${game.id}`}
-          sx={{ color: "white" }}
-          fullWidth
-          variant="outlined"
-          size="small"
-        >
-          Learn More
-        </Button>
-        <Button
-          onClick={(e) => {
-            e.preventDefault();
-            addProduct(game);
+          onClick={() => {
+            addProduct(deal);
           }}
           sx={{ color: "white" }}
           fullWidth
           variant="outlined"
           size="small"
         >
-          Favorite
+          Add to cart
         </Button>
       </CardActions>
     </Card>

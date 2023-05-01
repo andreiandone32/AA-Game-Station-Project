@@ -8,8 +8,7 @@ export default function () {
     <Routes>
       <Route element={<AppLayout />}>
         <Route path="/" element={<Pages.Home />} />
-        <Route path="/favorite" element={<Pages.Favorite />} />
-        <Route path="/gameInfo/:id" element={<Pages.GameInfo />} />
+        <Route path="/cart" element={<Pages.Cart />} />
       </Route>
     </Routes>
   );

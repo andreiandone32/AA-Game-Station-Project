@@ -1,36 +1,33 @@
 import {
   Box,
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  CardMedia,
   CircularProgress,
-  FormControl,
   Grid,
-  MenuItem,
-  Select,
   Typography,
 } from "@mui/material";
-import { getGames } from "../services/games";
-import { getGameByGenre } from "../services/games";
-import { GameCard } from "../components/GameCard";
+
+import { useQuery } from "@tanstack/react-query";
+import { getDeals } from "../services/deals";
+import { useState } from "react";
 import { useFetchData } from "../hooks/useFetchData";
-import { useState, useMemo, useEffect } from "react";
-import gameGenreOptions from "../services/gameGenreOptions.json";
-import { useLocalStorage } from "../hooks/useLocalStorage";
+import { NavLink } from "react-router-dom";
+import { GameCard } from "../components/GameCard";
 
 export default function () {
-
   const {
-    data: games,
+    data: deals,
     loading,
     error,
   } = useFetchData({
-    fetcher: getGames,
+    fetcher: getDeals,
     initialData: [],
   });
 
-  const [genre, setGenre] = useLocalStorage("genre", "allGenre");
-
-  const data = useMemo(() => {
-    return getGameByGenre(games);
-  });
+  console.log(deals);
 
   if (loading) {
     return <CircularProgress />;
@@ -52,53 +49,19 @@ export default function () {
 
   return (
     <Box>
-      <Typography
-        sx={{
-          fontFamily: "Roboto",
-          fontWeight: 500,
-          textAlign: "center",
-          fontSize: "3rem",
-          mt: 8,
-          color: "white",
-        }}
-        variant="h2"
-      >
-        Welcome
-      </Typography>
-      <Typography
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          fontSize: "1.5rem",
-          color: "white",
-        }}
-        variant="h6"
-      >
-        There are the best games for you
-      </Typography>
-      <FormControl sx={{ width: 150 }}>
-        <Select
-          labelId="multiple-select-label"
-          id="multiple-select"
-          value={genre}
-          onChange={(event) => setGenre(event.target.value)}
-        >
-          {gameGenreOptions.map((option, i) => {
-            return (
-              <MenuItem value={option.value} key={i}>
-                {option.label}
-              </MenuItem>
-            );
-          })}
-        </Select>
-      </FormControl>
-
-      <Grid sx={{ mt: 3 }} container spacing={2}>
-        {games.map((game) => (
-          <Grid key={game.id} item xs={12} sm={6} lg={3}>
-            <GameCard game={game} />
+      <Typography variant="h3" textAlign="center" color="white" my={4}>Welcome</Typography>
+      <Grid container spacing={2}>
+        {deals.map((deal) => (
+          <Grid key={deal.dealID} item xs={12} sm={6} md={3}>
+            <GameCard deal={deal} />
           </Grid>
         ))}
+        {/* <Grid item xs={6}>
+            <BookCard />
+          </Grid>
+          <Grid item xs={6}>
+            <BookCard />
+          </Grid> */}
       </Grid>
     </Box>
   );
